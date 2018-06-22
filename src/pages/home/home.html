@@ -1,18 +1,29 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      MEInventory
-    </ion-title>
+    <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item.name }}
-    </ion-item>
-  </ion-list>
+<ion-content>
+    <ion-searchbar (ionInput)="searchItems($event)"></ion-searchbar>
+    <ion-list *ngIf="items.length > 0; else emptyResult">
+
+      <ion-item-sliding *ngFor="let item of items">
+        <ion-item>
+        {{ item.name | uppercase }}  | &#8369;   {{ item.price  }}
+        </ion-item>
+        <ion-item-options>
+          <button ion-button icon-start (click)="viewItemDetails(item.id)" round color="light"> <ion-icon name="information-circle"></ion-icon></button>
+          <button ion-button icon-start (click)="editItem(item.id)" round color="primary"><ion-icon name="create"></ion-icon></button>
+          <button ion-button icon-start (click)="deleteItem(item.id)" round color="danger"> <ion-icon name="trash"></ion-icon></button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ng-template #emptyResult>
+        <ion-list>
+            <ion-item> No items found. </ion-item>
+        </ion-list>
+    </ng-template>
 
 </ion-content>
